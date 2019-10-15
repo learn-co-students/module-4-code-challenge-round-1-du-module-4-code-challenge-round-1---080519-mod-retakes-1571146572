@@ -1,32 +1,55 @@
 import React, { Component } from 'react'
 import TransactionsList from './TransactionsList'
 import Search from './Search'
-import {transactions} from '../transactionsData'
 
 class AccountContainer extends Component {
+	state={
+		alltransactions: [],
+		filteredTrans: [],
+		searchtext: ""
+	}
+	
+	componentDidMount(){
+		fetch("https://boiling-brook-94902.herokuapp.com/transactions")
+			.then(response=>response.json())
+			.then((transactionData)=>{
+				this.setState({
+					alltransactions: transactionData,
+					filteredTrans: transactionData
+				})
+			})
+	}
 
-  constructor() {
-    super()
+	handleSearchInput=(event)=>{
+		this.setState({
+			searchtext: event.target.value
+		}, this.updateFilteredTrans)
+	}
 
-    // get a default state working with the data imported from TransactionsData
-    // use this to get the functionality working
-    // then replace the default transactions with a call to the API
+	updateFilteredTrans=()=>{
+		console.log("updating filtered trans")
+		let updatedArr = this.state.alltransactions.filter((transaction)=>{
+			return(
+				transaction.description.toLowerCase().includes(this.state.searchtext.toLowerCase())
+				||
+				transaction.category.toLowerCase().includes(this.state.searchtext.toLowerCase())
+				) 
+		})
 
-  }
+		return this.setState({ filteredTrans: updatedArr })
+	}
 
-  handleChange(event) {
-    // your code here
-  }
+	render() {
 
-  render() {
-
-    return (
-      <div>
-        <Search />
-        <TransactionsList />
-      </div>
-    )
-  }
+		return (
+		<div>
+			<Search 
+				searchtext={this.state.searchtext}
+				handleSearchInput={this.handleSearchInput} />
+			<TransactionsList alltransactions={this.state.filteredTrans} />
+		</div>
+		)
+	}
 }
 
 export default AccountContainer
