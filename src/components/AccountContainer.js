@@ -28,9 +28,20 @@ class AccountContainer extends Component {
 
   
 
-  handleChange(event) {
-    // your code here
-  }
+  filterTransactions =(event)=>{
+    if (event.target.value !== 'All') {
+    this.setState({
+    transactions: this.state.rawtransactions.filter(
+    transaction => transaction.category === event.target.value
+    )
+    });
+    }
+    else {
+      if (event.target.value === 'All')
+    this.setState({
+    transactions: this.state.rawtransactions
+    })}
+    }
 
   searchForTransaction = (event) => {
 
@@ -67,9 +78,10 @@ class AccountContainer extends Component {
 
     return (
       <div>
-        <Search searchForTransaction={this.  searchForTransaction}  sortThings={this.sortThings} />
+        <Search searchForTransaction={this.  searchForTransaction}  sortThings={this.sortThings} filterTransactions={this.filterTransactions}/>
 
         <TransactionsList transactions={this.state.transactions} />
+
       </div>
     )
   }

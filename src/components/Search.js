@@ -14,11 +14,15 @@ const Search = (props) => {
 </label>
 <label>
 <strong>Filter:</strong>
-<select onChange={props.filterThings}>
+<select onChange={props.filterTransactions}>
 <option value="All">All</option>
-<option value="Tech">Tech</option>
-<option value="Sportswear">Sportswear</option>
-<option value="Finance">Finance</option>
+<option value="Fashion">Fashion</option>
+<option value="Income">Income</option>
+<option value="Food">Food</option>
+<option value="Entertainment">Entertainment</option>
+<option value="ATM">Atm</option>
+<option value="Housing">Housing</option>
+<option value="Misery">Misery</option>
 </select>
 </label>
       <input
